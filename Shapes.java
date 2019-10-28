@@ -6,8 +6,8 @@ import java.awt.Point;
 import java.util.Map;
 
 public abstract class Shapes implements Shape {
-    private Point p = new Point();
-    public Map<String,Double> map ;
+    private Point p;
+    private Map<String,Double> map ;
     private Color ExColor = Color.BLACK;
     private Color InColor = Color.WHITE;
    
@@ -58,10 +58,7 @@ public abstract class Shapes implements Shape {
 	}
 
 	@Override
-	public void draw(Graphics canvas) {
-		// TODO Auto-generated method stub
-
-	}
+	public abstract void draw(Graphics canvas) ;
 	public abstract Object clone() throws CloneNotSupportedException; // create a deep clone of the shape
 
 }

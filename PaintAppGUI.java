@@ -13,10 +13,17 @@ import javax.swing.JProgressBar;
 import javax.swing.JSlider;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Point;
+
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PaintAppGUI {
 
@@ -44,9 +51,21 @@ public class PaintAppGUI {
 	public PaintAppGUI() {
 		initialize();
 	}
-	private Color BrushColor = (Color.black);
-	private Color FillColor = (Color.black);
-
+	Map<String,Integer> m = new HashMap<>();
+	private void setM() {
+		m.put("FreeDraw", 0);
+		m.put("Circle", 1);
+		m.put("Triangle", 2);
+		m.put("rectangle", 3);
+		m.put("Ellipse", 4);
+		m.put("Square", 5);
+		m.put("Line", 6);
+		
+	}
+	Graphics g;
+	Color BrushColor = (Color.black);
+	Color FillColor = (Color.black);
+	
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(0, 0, 128));
@@ -54,14 +73,23 @@ public class PaintAppGUI {
 		frame.setBounds(100, 100, 851, 650);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		frame.getContentPane().addMouseListener(new MyMouse());
+		frame.getContentPane().addMouseListener(new Operator());
+		PaintApp paint = new PaintApp();
+		
 		JPanel panel = new JPanel();
 		panel.setBounds(12, 74, 821, 528);
 		panel.setBackground(Color.WHITE);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
+		paint.SetMyPanel(panel);
+		
 		JSlider BrushSize = new JSlider();
+		BrushSize.setMinimum(5);
+		BrushSize.setMaximum(30);
+		BrushSize.createStandardLabels(5,5);
+		BrushSize.setMajorTickSpacing(5);
+		BrushSize.setPaintTrack(true);
 		BrushSize.setBounds(220, 34, 200, 26);
 		frame.getContentPane().add(BrushSize);
 		
@@ -71,8 +99,8 @@ public class PaintAppGUI {
 		lblBrushSize.setBounds(220, 13, 156, 16);
 		frame.getContentPane().add(lblBrushSize);
 		
-		JComboBox MyShapes = new JComboBox();
-		MyShapes.setModel(new DefaultComboBoxModel(new String[] {"Free Draw", "Circle", "Triangle", "Rectangle", "Ellipse", "Square", "Line"}));
+		JComboBox<String> MyShapes = new JComboBox<String>();
+		MyShapes.setModel(new DefaultComboBoxModel<String>(new String[] {"Free Draw", "Circle", "Triangle", "Rectangle", "Ellipse", "Square", "Line"}));
 		MyShapes.setBounds(680, 34, 133, 26);
 		frame.getContentPane().add(MyShapes);
 		
@@ -93,10 +121,6 @@ public class PaintAppGUI {
 		frame.getContentPane().add(LoadBtn);
 		
 		JButton UndoBtn = new JButton("");
-		UndoBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		UndoBtn.setIcon(new ImageIcon("C:\\Users\\ramez\\eclipse-workspace\\DrawingApplication\\Images\\iconfinder_icon-ios7-undo_211838.png"));
 		UndoBtn.setBounds(136, 13, 30, 50);
 		frame.getContentPane().add(UndoBtn);
