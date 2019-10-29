@@ -7,27 +7,33 @@ import java.util.HashMap;
 public class Ellipse extends Shapes {
 
 	Ellipse(Point p1, Point p2){
-		double x,y,maj =0.0 ,min = 0.0; 
-		x = Math.abs(p1.getX() - p2.getY());
+		double x,y; 
+		x = Math.abs(p1.getX() - p2.getX());
 		y = Math.abs(p1.getY() - p2.getY());
-		if (x > y) {
-			maj = x ;
-			min = y;
-		}
-		else {
-			y=maj;
-			x=min;
-		}
+		
+		
 		 Map<String , Double> temp = new HashMap<>();
-		 temp.put("EllipseMajor", maj);
-		 temp.put("EllipseMinor", min);
+		 temp.put("EllipseMajor", x);
+		 temp.put("EllipseMinor", y);
 		 setProperties(temp);
-		 setPosition(p1);
+		 
+		 int minX = (int)Math.min(p1.getX(), p2.getX());
+		 int minY = (int)Math.min(p1.getY(), p2.getY());	
+		 Point p = new Point(minX,minY);
+		 setPosition(p);
 	}
 	@Override
 	public void draw(Graphics canvas) {
-		canvas.setColor(super.getColor());
-		canvas.drawOval((int)super.getPosition().getX(),(int)super.getPosition().getY(),(int)Math.round(super.getProperties().get("EllipseMajor")),(int)Math.round(super.getProperties().get("EllipseMinor")));
+		int x = (int)this.getPosition().getX();
+		int y = (int)this.getPosition().getY();
+		double width = this.getProperties().get("EllipseMajor");
+		double length = this.getProperties().get("EllipseMinor");
+		
+		canvas.setColor(this.getColor());
+		canvas.drawOval(x , y ,(int)width,(int)length);
+
+		canvas.setColor(this.getFillColor());
+		canvas.fillOval(x+1 , y+1,(int)width-1,(int)length-1);
 	}
 
 	@Override

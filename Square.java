@@ -14,14 +14,25 @@ public class Square extends Shapes {
 		l2 = Math.abs(P1.getY()-P2.getY());
 		
 		temp.put("sideLength", Math.min(l1, l2));
-		setPosition(P1);
 		setProperties(temp);
+		
+		int x,y;
+		x = Math.min((int)P1.getX(),(int) P2.getX());
+		y = Math.min((int)P1.getY(),(int) P2.getY());
+		
+		Point p = new Point(x,y);
+		setPosition(p);
+		
 	}
-
+	
 	@Override
 	public void draw(Graphics canvas) {
-		canvas.setColor(super.getColor());
-		canvas.drawRect((int)super.getPosition().getX(), (int)super.getPosition().getY(), (int)Math.round(super.getProperties().get("sideLength")),(int)Math.round(super.getProperties().get("sideLength")));
+		canvas.setColor(this.getColor());
+		double sideLength = this.getProperties().get("sideLength");
+		canvas.drawRect((int)this.getPosition().getX(), (int)this.getPosition().getY(), (int) sideLength, (int) sideLength);
+		
+		canvas.setColor(this.getFillColor());
+		canvas.fillRect((int)this.getPosition().getX()+1, (int)this.getPosition().getY()+1, (int) sideLength-1, (int) sideLength-1);
 
 	}
 
@@ -31,4 +42,5 @@ public class Square extends Shapes {
 		return null;
 	}
 
+	
 }

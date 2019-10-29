@@ -2,6 +2,7 @@ package eg.edu.alexu.csd.oop.draw;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Polygon;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,12 +21,26 @@ public class Triangle extends Shapes {
 		
 		setProperties(temp);
 	}
+	
 	@Override
 	public void draw(Graphics canvas) {
-		canvas.setColor(super.getColor());
-		canvas.drawLine((int)Math.round(super.getProperties().get("x1")),(int)Math.round(super.getProperties().get("y1")),(int)Math.round(super.getProperties().get("x2")),(int)Math.round(super.getProperties().get("y2")));
-		canvas.drawLine((int)Math.round(super.getProperties().get("x2")),(int)Math.round(super.getProperties().get("y2")),(int)Math.round(super.getProperties().get("x3")),(int)Math.round(super.getProperties().get("y3")));
-		canvas.drawLine((int)Math.round(super.getProperties().get("x3")),(int)Math.round(super.getProperties().get("y3")),(int)Math.round(super.getProperties().get("x1")),(int)Math.round(super.getProperties().get("1")));
+		
+		canvas.setColor(this.getColor());
+		double x1 = this.getProperties().get("x1");
+		double x2 = this.getProperties().get("x2");
+		double x3 = this.getProperties().get("x3");
+		double y1 = this.getProperties().get("y1");
+		double y2 = this.getProperties().get("y2");
+		double y3 = this.getProperties().get("y3");
+		
+		int[] Xs = {(int) x1,(int) x2,(int) x3};
+		int[] Ys = {(int) y1, (int) y2, (int) y3};
+		
+		Polygon p = new Polygon(Xs,Ys,3);
+		canvas.drawPolygon(p);
+		
+		canvas.setColor(this.getFillColor());
+		canvas.fillPolygon(p);
 
 	}
 
@@ -34,5 +49,7 @@ public class Triangle extends Shapes {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }

@@ -13,23 +13,42 @@ public class Rectangle extends Shapes {
 		Double l1,l2;
 		l1 = Math.abs(P1.getX()-P2.getX());
 		l2 = Math.abs(P1.getY()-P2.getY());
-		temp.put("width", l1);
-		temp.put("height", l2);
-		setPosition(P1);
+		temp.put("length", l1);
+		temp.put("width", l2);
+		
 		setProperties(temp);
 		
-	}
-	@Override
-	public void draw(Graphics canvas) {
-		canvas.setColor(super.getColor());
-		canvas.drawRect((int)super.getPosition().getX(), (int)super.getPosition().getY(), (int)Math.round(super.getProperties().get("width")),(int)Math.round(super.getProperties().get("height")));
+		int x,y;
+		x = Math.min((int)P1.getX(),(int) P2.getX());
+		y = Math.min((int)P1.getY(),(int) P2.getY());
+		
+		Point p = new Point(x,y);
+		setPosition(p);
 		
 	}
 
+	@Override
+	public void draw(Graphics canvas) {
+		canvas.setColor(this.getColor());
+		double length = this.getProperties().get("width");
+		double width = this.getProperties().get("length");
+		double x = this.getPosition().getX();
+		double y = this.getPosition().getY();
+		
+		canvas.drawRect((int)x,(int) y,(int) width,(int) length);
+		
+		canvas.setColor(this.getFillColor());
+		canvas.fillRect((int) x+1, (int) y+1,(int) width-1,(int) length-1);
+		
+		
+	}
+	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }

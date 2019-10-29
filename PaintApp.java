@@ -1,49 +1,79 @@
 package eg.edu.alexu.csd.oop.draw;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
 
 public class PaintApp implements DrawingEngine {
-	Shape shapArr[] = new Shapes[20]; 
-	int Capacity = 0 ;
-	JPanel panel;
+	private ArrayList<Shape> ShapeArr = new ArrayList<Shape>();
+    JPanel panel;
 	public void SetMyPanel(JPanel p) {
 		this.panel = p ;
 	}
+	public int ArrSize() {
+		return ShapeArr.size();
+	}
+	
 	@Override
 	public void refresh(Graphics canvas) {
-	    for (int i=0 ; i<Capacity ; i++) {
-	    	shapArr[i].draw(canvas);
-	    	panel.repaint();
+
+		
+	    for (int i=0 ; i<ShapeArr.size() ; i++) {
+	    	ShapeArr.get(i).draw(canvas);
 	    }
+	   
 
 	}
 
 	@Override
 	public void addShape(Shape shape) {
-		if (Capacity != 20) {
-			shapArr[Capacity] = shape;
-		}
+		ShapeArr.add(shape);
+		System.out.println(ShapeArr.size());
 
 	}
 
 	@Override
 	public void removeShape(Shape shape) {
-		// TODO Auto-generated method stub
-
+		
+		Shape s;
+		for(int i=0;i<ShapeArr.size();i++)
+		{
+			s = ShapeArr.get(i);
+			if(s == shape)
+			{
+				ShapeArr.remove(i);
+			}
+		}
+		
 	}
 
 	@Override
 	public void updateShape(Shape oldShape, Shape newShape) {
-		// TODO Auto-generated method stub
-
+	     if (oldShape == newShape) {
+	    	 return;
+	     } 
+	     else {
+	    	 Shape s;
+	    	 s = oldShape;
+	    	 for (int i=0 ; i<ShapeArr.size() ; i++ ) {
+	    		 if (s == ShapeArr.get(i)) {
+	    			 ShapeArr.set(i, newShape) ;
+	    		 }
+	    	 }
+	    	 
+	     }
 	}
 
 	@Override
 	public Shape[] getShapes() {
-		return shapArr;
+		int y = ShapeArr.size();
+		Shape s[] = new Shapes[y] ;
+		for (int i=0 ; i<y ; i++ ) {
+			s[i] = ShapeArr.get(i) ;
+		}
+		return s;
 	}
 
 	@Override
