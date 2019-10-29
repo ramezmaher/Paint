@@ -78,7 +78,7 @@ public class PaintAppGUI {
 		m.put("Ellipse", 4);
 		m.put("Square", 5);
 		m.put("Line", 6);
-		
+		m.put("Brush",7);
 	}
 	
 	
@@ -99,18 +99,17 @@ public class PaintAppGUI {
 			public void mouseDragged(MouseEvent e) {
 				setM();
 				int Index = m.get((String)MyShapes.getSelectedItem());
-				
-				
-				if (Index == 0) {
+				Point Pnow = new Point() ;
+				Pnow.x = e.getX();
+			    Pnow.y = e.getY();
+				if (Index == 7) {
 				Graphics canvas = panel.getGraphics();
 				canvas.setColor(BrushColor);
 				canvas.fillOval(e.getX(), e.getY(), brush, brush);
 				}	
 				else {
-					Point Pnow = new Point() ;
+					
 					Shape currentArr [] = drawer.getShapes();
-					Pnow.x = e.getX();
-				    Pnow.y = e.getY();
 				    Graphics canvas = panel.getGraphics();
 				    Shape s = getShape(Index,p1,Pnow);
 					s.setColor(BrushColor);
@@ -150,7 +149,7 @@ public class PaintAppGUI {
 					setM();
 					
 					int shapeIndex = m.get((String)MyShapes.getSelectedItem());
-					if (shapeIndex != 0) {
+					if (shapeIndex != 0 && shapeIndex != 7 ) {
 					Shape s = getShape(shapeIndex,p1,p2);
 					s.setColor(BrushColor);
 					s.setFillColor(FillColor);
@@ -199,7 +198,7 @@ public class PaintAppGUI {
 		});
 		
 		
-		MyShapes.setModel(new DefaultComboBoxModel<String>(new String[] {" " ,"Circle", "Triangle", "Rectangle", "Ellipse", "Square", "Line"}));
+		MyShapes.setModel(new DefaultComboBoxModel<String>(new String[] {" " ,"Circle", "Triangle", "Rectangle", "Ellipse", "Square", "Line" , "Brush"}));
 		MyShapes.setBounds(680, 34, 133, 26);
 		frame.getContentPane().add(MyShapes);
 		
@@ -233,7 +232,7 @@ public class PaintAppGUI {
 		JButton BrushBtn = new JButton("");
 		BrushBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MyShapes.setSelectedItem(" ");
+				MyShapes.setSelectedItem("Brush");
 				if (BrushColor == Color.WHITE) {
 					BrushColor = BrushColorPrev;
 				}
@@ -246,7 +245,9 @@ public class PaintAppGUI {
 		JButton EraseBtn = new JButton("");
 		EraseBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (m.get((String)MyShapes.getSelectedItem()) == 0) {
+				
+				setM();
+				if (m.get((String)MyShapes.getSelectedItem()) == 7) {
 					BrushColor = Color.WHITE ;
 					textFieldBrush.setBackground(BrushColorPrev);
 				}
