@@ -1,12 +1,14 @@
 package eg.edu.alexu.csd.oop.draw;
 
 import java.util.Map;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.HashMap;
 public class Ellipse extends Shapes {
 
-	Ellipse(Point p1, Point p2){
+	Ellipse(Point p1, Point p2 ,Color strip , Color fill){
+		super(p1,strip,fill);
 		double x,y; 
 		x = Math.abs(p1.getX() - p2.getX());
 		y = Math.abs(p1.getY() - p2.getY());
@@ -21,6 +23,9 @@ public class Ellipse extends Shapes {
 		 int minY = (int)Math.min(p1.getY(), p2.getY());	
 		 Point p = new Point(minX,minY);
 		 setPosition(p);
+	}
+	public Ellipse() {
+		super();
 	}
 	@Override
 	public void draw(Graphics canvas) {

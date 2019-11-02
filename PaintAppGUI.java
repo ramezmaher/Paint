@@ -30,6 +30,9 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import java.awt.event.MouseMotionAdapter;
 import javax.swing.JTextField;
+import javax.swing.JPopupMenu;
+import java.awt.Component;
+import java.awt.Toolkit;
 
 public class PaintAppGUI {
 
@@ -43,6 +46,8 @@ public class PaintAppGUI {
 	JSlider BrushSize = new JSlider(5,100,30);
 	int brush = 30;
 	PaintApp drawer = new PaintApp();
+	JPanel panel = new JPanel();
+	
 
 	/**
 	 * Launch the application.
@@ -85,14 +90,15 @@ public class PaintAppGUI {
 		
 	private void initialize() {
 		frame = new JFrame();
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\ramez\\eclipse-workspace\\DrawingApplication\\Images\\iconfinder_paint-color-pallete-brush-academy_2824445.png"));
 		frame.getContentPane().setBackground(new Color(0, 0, 128));
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 851, 650);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-	
-		JPanel panel = new JPanel();
-		drawer.SetMyPanel(panel);
+		
+		drawer.getSupportedShapes();
+		
 		panel.addMouseMotionListener(new MouseMotionAdapter() {
 			
 			@Override
@@ -102,15 +108,17 @@ public class PaintAppGUI {
 				Point Pnow = new Point() ;
 				Pnow.x = e.getX();
 			    Pnow.y = e.getY();
+			    Graphics canvas = panel.getGraphics();
 				if (Index == 7) {
-				Graphics canvas = panel.getGraphics();
 				canvas.setColor(BrushColor);
 				canvas.fillOval(e.getX(), e.getY(), brush, brush);
-				}	
+				}
+				else if (Index == 0) {
+					//this is the empty case used to get order from the cursor
+				}
 				else {
 					
 					Shape currentArr [] = drawer.getShapes();
-				    Graphics canvas = panel.getGraphics();
 				    Shape s = getShape(Index,p1,Pnow);
 					s.setColor(BrushColor);
 					s.setFillColor(FillColor);
@@ -142,12 +150,8 @@ public class PaintAppGUI {
 				
 					p2.x = e.getX();
 					p2.y = e.getY();
-					
-		
-					
-					Graphics canvas = panel.getGraphics();
 					setM();
-					
+					Graphics canvas = panel.getGraphics();
 					int shapeIndex = m.get((String)MyShapes.getSelectedItem());
 					if (shapeIndex != 0 && shapeIndex != 7 ) {
 					Shape s = getShape(shapeIndex,p1,p2);
@@ -189,11 +193,15 @@ public class PaintAppGUI {
 		lblBrushSize.setForeground(new Color(255, 255, 255));
 		lblBrushSize.setBounds(220, 13, 156, 16);
 		frame.getContentPane().add(lblBrushSize);
+		
+		
 		MyShapes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (BrushColor == Color.WHITE) {
 					BrushColor = BrushColorPrev;
 				}
+				Graphics canvas = panel.getGraphics();
+				drawer.refresh(canvas);
 			}
 		});
 		
@@ -210,11 +218,25 @@ public class PaintAppGUI {
 		frame.getContentPane().add(lblShapes);
 		
 		JButton SaveBtn = new JButton("");
+		SaveBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				drawer.save(drawer.ChooseFileToSave());
+				
+			}
+		});
 		SaveBtn.setIcon(new ImageIcon("C:\\Users\\ramez\\eclipse-workspace\\DrawingApplication\\Images\\iconfinder_floppy_285657.png"));
 		SaveBtn.setBounds(12, 13, 50, 50);
 		frame.getContentPane().add(SaveBtn);
 		
 		JButton LoadBtn = new JButton("");
+		LoadBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				drawer.load(drawer.ChooseFileToLoad());
+				Graphics canvas = panel.getGraphics();
+				drawer.refresh(canvas);
+				
+			}
+		});
 		LoadBtn.setIcon(new ImageIcon("C:\\Users\\ramez\\eclipse-workspace\\DrawingApplication\\Images\\iconfinder_get-money_3338979.png"));
 		LoadBtn.setBounds(74, 13, 50, 50);
 		frame.getContentPane().add(LoadBtn);
@@ -312,22 +334,22 @@ public class PaintAppGUI {
 		{
 		
 		case 1:
-			s = new Circle(p1,p2);
+			s = new Circle(p1,p2,BrushColor,FillColor);
 			break;
 		case 2:
-			s = new Triangle(p1,p2);
+			s = new Triangle(p1,p2,BrushColor,FillColor);
 			break;
 		case 3:
-			s = new Rectangle(p1,p2);
+			s = new Rectangle(p1,p2,BrushColor,FillColor);
 			break;
 		case 4:
-			s = new Ellipse(p1,p2);
+			s = new Ellipse(p1,p2,BrushColor,FillColor);
 			break;
 		case 5:
-			s = new Square(p1,p2);
+			s = new Square(p1,p2,BrushColor,FillColor);
 			break;
 		case 6:
-			s = new StraightLine(p1,p2);
+			s = new StraightLine(p1,p2,BrushColor);
 			break;
 			default:
 				
@@ -338,4 +360,5 @@ public class PaintAppGUI {
 		return s;
 		
 	}
+	
 }

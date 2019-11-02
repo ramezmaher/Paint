@@ -11,6 +11,13 @@ public abstract class Shapes implements Shape {
     private Color ExColor = Color.BLACK;
     private Color InColor = Color.WHITE;
    
+    public Shapes (Point point , Color exColor,Color inColor) {
+    	this.p = point;
+    	this.ExColor = exColor;
+    	this.InColor = inColor;
+    }
+    public Shapes() {}
+    
 	@Override
 	public void setPosition(Point position) {
 		this.p = position;

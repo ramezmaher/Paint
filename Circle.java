@@ -1,12 +1,14 @@
 package eg.edu.alexu.csd.oop.draw;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.Map;
 import java.util.HashMap;
 public class Circle extends Shapes {
     
-	 Circle(Point p1, Point p2){
+	 Circle(Point p1, Point p2,Color strip , Color fill){
+		 super(p1,strip,fill);
 		  Map<String , Double> temp = new HashMap<>();
 		  double diameter,x,y;
 		  x = Math.abs(p1.getX() - p2.getX());
@@ -20,9 +22,13 @@ public class Circle extends Shapes {
 		  int minX = (int)Math.min(p1.getX(), p2.getX());
 		  int minY = (int)Math.min(p1.getY(), p2.getY());
 		  Point p = new Point(minX+(int)(x/2)-(int)diameter/2 , minY + (int)(y/2) - (int)diameter/2);
-		  
 		  setPosition(p);
+		  
 	  }
+	 public Circle() {
+			super();
+		}
+	 
 	    @Override
 	    	public void draw(Graphics canvas) {
 	    		canvas.setColor(this.getColor());
@@ -32,6 +38,7 @@ public class Circle extends Shapes {
 	    		canvas.fillOval((int)this.getPosition().getX()+1, (int)this.getPosition().getY()+1, (int)Math.round(this.getProperties().get("Diameter"))-1,(int)Math.round(this.getProperties().get("Diameter"))-1);
 	    
 	    }
+	    
 	    
 	    public Object clone() throws CloneNotSupportedException {
 	    	// TODO Auto-generated method stub

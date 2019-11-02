@@ -1,5 +1,6 @@
 package eg.edu.alexu.csd.oop.draw;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.HashMap;
@@ -7,8 +8,9 @@ import java.util.Map;
 
 public class Rectangle extends Shapes {
 
-	public Rectangle(Point P1, Point P2)
+	public Rectangle(Point P1, Point P2,Color strip,Color fill)
 	{
+		super(P1,strip,fill);
 		Map<String,Double> temp = new HashMap<String,Double>();
 		Double l1,l2;
 		l1 = Math.abs(P1.getX()-P2.getX());
@@ -25,6 +27,9 @@ public class Rectangle extends Shapes {
 		Point p = new Point(x,y);
 		setPosition(p);
 		
+	}
+	public Rectangle() {
+		super();
 	}
 
 	@Override

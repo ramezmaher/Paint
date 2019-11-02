@@ -1,10 +1,12 @@
 package eg.edu.alexu.csd.oop.draw;
 import java.util.Map;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.HashMap;
 public class StraightLine extends Shapes {
-	   StraightLine(Point p1, Point p2){
+	   StraightLine(Point p1, Point p2,Color strip){
+		   super(p1,strip,Color.WHITE);
 	    	Map<String, Double> temp = new HashMap<>();
 	    	temp.put("X1", p1.getX());
 	    	temp.put("X2", p2.getX());
@@ -13,6 +15,9 @@ public class StraightLine extends Shapes {
 	    	setProperties(temp);
 	    	setPosition(p1);
 	    }
+	   public StraightLine() {
+			super();
+		}
 		@Override
 		public void draw(Graphics canvas) {
 			canvas.setColor(this.getColor());
