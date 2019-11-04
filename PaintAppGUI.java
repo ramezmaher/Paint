@@ -12,6 +12,8 @@ import java.awt.SystemColor;
 import javax.swing.JProgressBar;
 import javax.swing.JSlider;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -33,10 +35,13 @@ import javax.swing.JTextField;
 import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.Toolkit;
+import java.awt.Dimension;
+import javax.swing.SwingConstants;
+import java.awt.Window.Type;
 
 public class PaintAppGUI {
-
-	private JFrame frame;
+//See Line 197 for Move,resize,Change color, Delete
+	private JFrame frmWorldOfColors;
 	Point p1 = new Point();
 	Point p2 = new Point();
 	Color BrushColor = (Color.black);
@@ -57,7 +62,7 @@ public class PaintAppGUI {
 			public void run() {
 				try {
 					PaintAppGUI window = new PaintAppGUI();
-					window.frame.setVisible(true);
+					window.frmWorldOfColors.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -89,13 +94,16 @@ public class PaintAppGUI {
 	
 		
 	private void initialize() {
-		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\ramez\\eclipse-workspace\\DrawingApplication\\Images\\iconfinder_paint-color-pallete-brush-academy_2824445.png"));
-		frame.getContentPane().setBackground(new Color(0, 0, 128));
-		frame.setResizable(false);
-		frame.setBounds(100, 100, 851, 650);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frmWorldOfColors = new JFrame();
+		frmWorldOfColors.setForeground(SystemColor.menu);
+		frmWorldOfColors.setFont(new Font("Comic Sans MS", Font.BOLD, 23));
+		frmWorldOfColors.setTitle("Dream Paint ");
+		frmWorldOfColors.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\ramez\\eclipse-workspace\\DrawingApplication\\Images\\paint.png"));
+		frmWorldOfColors.getContentPane().setBackground(new Color(0, 0, 128));
+		frmWorldOfColors.setResizable(false);
+		frmWorldOfColors.setBounds(100, 100, 998, 669);
+		frmWorldOfColors.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmWorldOfColors.getContentPane().setLayout(null);
 		
 		drawer.getSupportedShapes();
 		
@@ -163,11 +171,56 @@ public class PaintAppGUI {
 					super.mouseReleased(e);
 				}
 			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setM();
+				int Index = m.get((String)MyShapes.getSelectedItem());
+				Graphics canvas = panel.getGraphics();
+				if (Index == 0) {
+					Point pclick = new Point(e.getX(),e.getY());
+					Shape s;
+					s = drawer.GetSelectedShape(pclick);
+					if (s != null) {	
+					System.out.println(s.getClass().getName());
+					JPopupMenu menu = new JPopupMenu();
+					JMenuItem item1 = new JMenuItem("Move");
+					JMenuItem item2 = new JMenuItem("Resize");
+					JMenuItem item3 = new JMenuItem("Change Color");
+					JMenuItem item4 = new JMenuItem("Delete");
+					menu.add(item1);
+					menu.add(item2);
+					menu.add(item3);
+					menu.add(item4);
+					menu.show(e.getComponent(),e.getX(),e.getY());
+					drawer.refresh(canvas);
+					item1.addActionListener(new ActionListener(){
+						public void actionPerformed(ActionEvent e) {
+							//Move 
+						}
+					});
+					item2.addActionListener(new ActionListener(){
+						public void actionPerformed(ActionEvent e) {
+							//resize
+						}
+					});
+					item3.addActionListener(new ActionListener(){
+						public void actionPerformed(ActionEvent e) {
+							//Change Color 
+						}
+					});
+					item1.addActionListener(new ActionListener(){
+						public void actionPerformed(ActionEvent e) {
+							//Delete 
+						}
+					});
+					}
+				}
+			}
 		}
 		);
-		panel.setBounds(12, 74, 821, 528);
+		panel.setBounds(12, 74, 968, 547);
 		panel.setBackground(Color.WHITE);
-		frame.getContentPane().add(panel);
+		frmWorldOfColors.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		
@@ -185,14 +238,14 @@ public class PaintAppGUI {
 		BrushSize.setMajorTickSpacing(10);
 		BrushSize.setMinorTickSpacing(1);
 		BrushSize.setBounds(220, 34, 200, 26);
-		frame.getContentPane().add(BrushSize);
+		frmWorldOfColors.getContentPane().add(BrushSize);
 		
 		JLabel lblBrushSize = new JLabel("Brush Size");
 		lblBrushSize.setBackground(Color.WHITE);
 		lblBrushSize.setFont(new Font("Neo Tech Alt Medium", Font.BOLD, 17));
 		lblBrushSize.setForeground(new Color(255, 255, 255));
 		lblBrushSize.setBounds(220, 13, 156, 16);
-		frame.getContentPane().add(lblBrushSize);
+		frmWorldOfColors.getContentPane().add(lblBrushSize);
 		
 		
 		MyShapes.addActionListener(new ActionListener() {
@@ -207,15 +260,15 @@ public class PaintAppGUI {
 		
 		
 		MyShapes.setModel(new DefaultComboBoxModel<String>(new String[] {" " ,"Circle", "Triangle", "Rectangle", "Ellipse", "Square", "Line" , "Brush"}));
-		MyShapes.setBounds(680, 34, 133, 26);
-		frame.getContentPane().add(MyShapes);
+		MyShapes.setBounds(734, 35, 184, 26);
+		frmWorldOfColors.getContentPane().add(MyShapes);
 		
 		
 		JLabel lblShapes = new JLabel("Shapes");
 		lblShapes.setForeground(new Color(255, 255, 255));
 		lblShapes.setFont(new Font("Neo Tech Alt Medium", Font.BOLD, 18));
-		lblShapes.setBounds(680, 5, 87, 24);
-		frame.getContentPane().add(lblShapes);
+		lblShapes.setBounds(734, 5, 87, 24);
+		frmWorldOfColors.getContentPane().add(lblShapes);
 		
 		JButton SaveBtn = new JButton("");
 		SaveBtn.addActionListener(new ActionListener() {
@@ -224,9 +277,9 @@ public class PaintAppGUI {
 				
 			}
 		});
-		SaveBtn.setIcon(new ImageIcon("C:\\Users\\ramez\\eclipse-workspace\\DrawingApplication\\Images\\iconfinder_floppy_285657.png"));
+		SaveBtn.setIcon(new ImageIcon(PaintAppGUI.class.getResource("/Images/Save.png")));
 		SaveBtn.setBounds(12, 13, 50, 50);
-		frame.getContentPane().add(SaveBtn);
+		frmWorldOfColors.getContentPane().add(SaveBtn);
 		
 		JButton LoadBtn = new JButton("");
 		LoadBtn.addActionListener(new ActionListener() {
@@ -237,19 +290,19 @@ public class PaintAppGUI {
 				
 			}
 		});
-		LoadBtn.setIcon(new ImageIcon("C:\\Users\\ramez\\eclipse-workspace\\DrawingApplication\\Images\\iconfinder_get-money_3338979.png"));
+		LoadBtn.setIcon(new ImageIcon(PaintAppGUI.class.getResource("/Images/load.png")));
 		LoadBtn.setBounds(74, 13, 50, 50);
-		frame.getContentPane().add(LoadBtn);
+		frmWorldOfColors.getContentPane().add(LoadBtn);
 		
 		JButton UndoBtn = new JButton("");
-		UndoBtn.setIcon(new ImageIcon("C:\\Users\\ramez\\eclipse-workspace\\DrawingApplication\\Images\\iconfinder_icon-ios7-undo_211838.png"));
+		UndoBtn.setIcon(new ImageIcon(PaintAppGUI.class.getResource("/Images/undo.png")));
 		UndoBtn.setBounds(136, 13, 30, 50);
-		frame.getContentPane().add(UndoBtn);
+		frmWorldOfColors.getContentPane().add(UndoBtn);
 		
 		JButton RedoBtn = new JButton("");
-		RedoBtn.setIcon(new ImageIcon("C:\\Users\\ramez\\eclipse-workspace\\DrawingApplication\\Images\\iconfinder_icon-ios7-redo_211811.png"));
+		RedoBtn.setIcon(new ImageIcon(PaintAppGUI.class.getResource("/Images/redo.png")));
 		RedoBtn.setBounds(178, 13, 30, 50);
-		frame.getContentPane().add(RedoBtn);
+		frmWorldOfColors.getContentPane().add(RedoBtn);
 		
 		JButton BrushBtn = new JButton("");
 		BrushBtn.addActionListener(new ActionListener() {
@@ -261,8 +314,8 @@ public class PaintAppGUI {
 			}
 		});
 		BrushBtn.setBounds(432, 13, 50, 50);
-		frame.getContentPane().add(BrushBtn);
-		BrushBtn.setIcon(new ImageIcon("C:\\Users\\ramez\\eclipse-workspace\\DrawingApplication\\Images\\iconfinder_paintbrush2_1055017.png"));
+		frmWorldOfColors.getContentPane().add(BrushBtn);
+		BrushBtn.setIcon(new ImageIcon(PaintAppGUI.class.getResource("/Images/brush.png")));
 		
 		JButton EraseBtn = new JButton("");
 		EraseBtn.addActionListener(new ActionListener() {
@@ -276,13 +329,13 @@ public class PaintAppGUI {
 			}
 		});
 		EraseBtn.setBounds(494, 13, 50, 50);
-		frame.getContentPane().add(EraseBtn);
+		frmWorldOfColors.getContentPane().add(EraseBtn);
 		EraseBtn.setBackground(SystemColor.menu);
-		EraseBtn.setIcon(new ImageIcon("C:\\Users\\ramez\\eclipse-workspace\\DrawingApplication\\Images\\iconfinder_05_Eraser_2064480.png"));
+		EraseBtn.setIcon(new ImageIcon(PaintAppGUI.class.getResource("/Images/Eraser.png")));
 		
 		JButton ColorsBtn = new JButton("");
 		ColorsBtn.setBounds(556, 13, 50, 50);
-		frame.getContentPane().add(ColorsBtn);
+		frmWorldOfColors.getContentPane().add(ColorsBtn);
 		ColorsBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BrushColor = JColorChooser.showDialog(null, "Pick the brush color", BrushColor);
@@ -295,11 +348,11 @@ public class PaintAppGUI {
 				textFieldBrush.setBackground(BrushColor);
 			}
 		});
-		ColorsBtn.setIcon(new ImageIcon("C:\\Users\\ramez\\eclipse-workspace\\DrawingApplication\\Images\\iconfinder_paintcan_1055016.png"));
+		ColorsBtn.setIcon(new ImageIcon(PaintAppGUI.class.getResource("/Images/color.png")));
 		
 		JButton FillBtn = new JButton("");
-		FillBtn.setBounds(618, 13, 50, 50);
-		frame.getContentPane().add(FillBtn);
+		FillBtn.setBounds(672, 13, 50, 50);
+		frmWorldOfColors.getContentPane().add(FillBtn);
 		FillBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FillColor = JColorChooser.showDialog(null, "Pick the fill color", FillColor);
@@ -311,21 +364,31 @@ public class PaintAppGUI {
 			}
 		});
 		FillBtn.setBackground(new Color(210, 105, 30));
-		FillBtn.setIcon(new ImageIcon("C:\\Users\\ramez\\eclipse-workspace\\DrawingApplication\\Images\\iconfinder_eyedropper_1055064.png"));
+		FillBtn.setIcon(new ImageIcon(PaintAppGUI.class.getResource("/Images/fill.png")));
 		
 		textFieldBrush = new JTextField();
-		textFieldBrush.setBounds(556, 0, 50, 10);
-		frame.getContentPane().add(textFieldBrush);
+		textFieldBrush.setBounds(618, 13, 20, 50);
+		frmWorldOfColors.getContentPane().add(textFieldBrush);
 		textFieldBrush.setEditable(false);
 		textFieldBrush.setBackground(BrushColor);
 		textFieldBrush.setColumns(10);
 		
 		textFieldFill = new JTextField();
-		textFieldFill.setBounds(618, 0, 50, 10);
-		frame.getContentPane().add(textFieldFill);
+		textFieldFill.setBounds(640, 13, 20, 50);
+		frmWorldOfColors.getContentPane().add(textFieldFill);
 		textFieldFill.setEditable(false);
 		textFieldFill.setBackground(FillColor);
 		textFieldFill.setColumns(10);
+		
+		JButton CursorBtn = new JButton("");
+		CursorBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MyShapes.setSelectedItem(" ");
+			}
+		});
+		CursorBtn.setIcon(new ImageIcon(PaintAppGUI.class.getResource("/Images/cursor.png")));
+		CursorBtn.setBounds(930, 13, 50, 50);
+		frmWorldOfColors.getContentPane().add(CursorBtn);
 	}
 	private Shape getShape (int x,Point p1,Point p2)
 	{
@@ -334,22 +397,22 @@ public class PaintAppGUI {
 		{
 		
 		case 1:
-			s = new Circle(p1,p2,BrushColor,FillColor);
+			s = new Circle(p1,p2);
 			break;
 		case 2:
-			s = new Triangle(p1,p2,BrushColor,FillColor);
+			s = new Triangle(p1,p2);
 			break;
 		case 3:
-			s = new Rectangle(p1,p2,BrushColor,FillColor);
+			s = new Rectangle(p1,p2);
 			break;
 		case 4:
-			s = new Ellipse(p1,p2,BrushColor,FillColor);
+			s = new Ellipse(p1,p2);
 			break;
 		case 5:
-			s = new Square(p1,p2,BrushColor,FillColor);
+			s = new Square(p1,p2);
 			break;
 		case 6:
-			s = new StraightLine(p1,p2,BrushColor);
+			s = new StraightLine(p1,p2);
 			break;
 			default:
 				
@@ -360,5 +423,4 @@ public class PaintAppGUI {
 		return s;
 		
 	}
-	
 }

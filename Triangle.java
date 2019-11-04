@@ -1,6 +1,6 @@
 package eg.edu.alexu.csd.oop.draw;
 
-import java.awt.Color;
+
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Triangle extends Shapes {
-	public Triangle(Point P1, Point P2,Color strip , Color fill)
+	public Triangle(Point P1, Point P2)
 	{
-		super(P1,strip,fill);
+		
 		Map<String,Double> temp = new HashMap<String,Double>();
 		
 		Double x1=P1.getX(), x2=P2.getX(), y1=P1.getY(), y2=P2.getY();
@@ -46,6 +46,11 @@ public class Triangle extends Shapes {
 		canvas.setColor(this.getFillColor());
 		canvas.fillPolygon(p);
 
+	}
+	@Override
+	public boolean contain(Point p) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override

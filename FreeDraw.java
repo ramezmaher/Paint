@@ -1,6 +1,6 @@
 package eg.edu.alexu.csd.oop.draw;
 
-import java.awt.Color;
+
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import java.util.Map;
 public class FreeDraw extends Shapes {
 
 	FreeDraw(int size,Point p){
-		super(p,Color.BLACK,Color.BLACK);
+	
 		Map<String , Double> temp = new HashMap<>();
 		  temp.put("Diameter", (double)size);
 		  setProperties(temp);
@@ -20,6 +20,11 @@ public class FreeDraw extends Shapes {
 		canvas.fillOval((int)super.getPosition().getX(), (int)super.getPosition().getY(), (int)Math.round(super.getProperties().get("Diameter")),(int)Math.round(super.getProperties().get("Diameter")));
 
 
+	}
+	@Override
+	public boolean contain(Point p) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override

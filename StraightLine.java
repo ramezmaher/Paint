@@ -1,12 +1,11 @@
 package eg.edu.alexu.csd.oop.draw;
 import java.util.Map;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.HashMap;
 public class StraightLine extends Shapes {
-	   StraightLine(Point p1, Point p2,Color strip){
-		   super(p1,strip,Color.WHITE);
+	   StraightLine(Point p1, Point p2){
+		   
 	    	Map<String, Double> temp = new HashMap<>();
 	    	temp.put("X1", p1.getX());
 	    	temp.put("X2", p2.getX());
@@ -22,6 +21,11 @@ public class StraightLine extends Shapes {
 		public void draw(Graphics canvas) {
 			canvas.setColor(this.getColor());
 			canvas.drawLine((int)Math.round(this.getProperties().get("X1")),(int)Math.round(this.getProperties().get("Y1")),(int)Math.round(this.getProperties().get("X2")),(int)Math.round(this.getProperties().get("Y2")));
+		}
+		@Override
+		public boolean contain(Point p) {
+			// TODO Auto-generated method stub
+			return false;
 		}
 		public Object clone() throws CloneNotSupportedException {
 			// TODO Auto-generated method stub

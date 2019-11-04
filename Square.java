@@ -1,6 +1,6 @@
 package eg.edu.alexu.csd.oop.draw;
 
-import java.awt.Color;
+
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.HashMap;
@@ -8,8 +8,7 @@ import java.util.Map;
 
 public class Square extends Shapes {
 
-	public Square(Point P1, Point P2,Color strip , Color fill) {
-		super(P1,strip,fill);
+	public Square(Point P1, Point P2) {
 		Map<String,Double> temp = new HashMap<String,Double>();
 		Double l1,l2;
 		l1 = Math.abs(P1.getX()-P2.getX());
@@ -39,6 +38,12 @@ public class Square extends Shapes {
 		canvas.fillRect((int)this.getPosition().getX()+1, (int)this.getPosition().getY()+1, (int) sideLength-1, (int) sideLength-1);
 
 	}
+	public boolean contain (Point p) {
+		if ((p.getX() >= this.getPosition().getX()) && (p.getY() >= this.getPosition().getY()) && (p.getX() <= (this.getPosition().getX() + this.getProperties().get("sideLength"))) && (p.getY() <= (this.getPosition().getY() + this.getProperties().get("sideLength")))) {
+		 return true;	
+		}
+		else return false;
+	} 
 
 	@Override
 	public Object clone() throws CloneNotSupportedException {

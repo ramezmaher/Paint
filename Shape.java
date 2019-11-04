@@ -1,5 +1,7 @@
 package eg.edu.alexu.csd.oop.draw;
 
+import java.awt.Point;
+
 public interface Shape{
 
     public void setPosition(java.awt.Point position);
@@ -8,6 +10,7 @@ public interface Shape{
     // update shape specific properties (e.g., radius)
     public void setProperties(java.util.Map<String, Double> properties);
     public java.util.Map<String, Double> getProperties();
+    public boolean contain(Point p);
 
     public void setColor(java.awt.Color color);
     public java.awt.Color getColor();

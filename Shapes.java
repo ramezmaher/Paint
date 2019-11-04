@@ -10,12 +10,7 @@ public abstract class Shapes implements Shape {
     private Map<String,Double> map ;
     private Color ExColor = Color.BLACK;
     private Color InColor = Color.WHITE;
-   
-    public Shapes (Point point , Color exColor,Color inColor) {
-    	this.p = point;
-    	this.ExColor = exColor;
-    	this.InColor = inColor;
-    }
+  
     public Shapes() {}
     
 	@Override
@@ -63,6 +58,7 @@ public abstract class Shapes implements Shape {
 		
 		return InColor;
 	}
+	public abstract boolean contain(Point p);
 
 	@Override
 	public abstract void draw(Graphics canvas) ;

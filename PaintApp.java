@@ -29,7 +29,7 @@ public class PaintApp implements DrawingEngine {
     private JFileChooser fc = new JFileChooser();
     private FileFilter filter = new FileNameExtensionFilter(null,"XML","JSON");
 	File file ;
-
+	
 	public int ArrSize() {
 		return ShapeArr.size();
 	}
@@ -284,20 +284,20 @@ public class PaintApp implements DrawingEngine {
 		            }
 		            if(current.contains("Color")&&!current.contains("Fill"))
 		            {
-		                int red,blue,green;
-		                red=Integer.parseInt(current.substring(current.indexOf("r=")+2, current.indexOf("g=")-1));
-		                green=Integer.parseInt(current.substring(current.indexOf("g=")+2, current.indexOf("b=")-1));
-		                blue=Integer.parseInt(current.substring(current.indexOf("b=")+2, current.indexOf("]")));
-		                CurrentShape.setColor(new Color(red,green,blue));
+		                int r,g,b;
+		                r=Integer.parseInt(current.substring(current.indexOf("r=")+2, current.indexOf("g=")-1));
+		                g=Integer.parseInt(current.substring(current.indexOf("g=")+2, current.indexOf("b=")-1));
+		                b=Integer.parseInt(current.substring(current.indexOf("b=")+2, current.indexOf("]")));
+		                CurrentShape.setColor(new Color(r,g,b));
 		                current=readCodes.nextLine();
 		            }
 		            if(current.contains("Color")&&current.contains("Fill"))
 		            {
-		                int red,blue,green;
-		                red=Integer.parseInt(current.substring(current.indexOf("r=")+2, current.indexOf("g=")-1));
-		                green=Integer.parseInt(current.substring(current.indexOf("g=")+2, current.indexOf("b=")-1));
-		                blue=Integer.parseInt(current.substring(current.indexOf("b=")+2, current.indexOf("]")));
-		                CurrentShape.setFillColor(new Color(red,green,blue));
+		                int r,g,b;
+		                r=Integer.parseInt(current.substring(current.indexOf("r=")+2, current.indexOf("g=")-1));
+		                g=Integer.parseInt(current.substring(current.indexOf("g=")+2, current.indexOf("b=")-1));
+		                b=Integer.parseInt(current.substring(current.indexOf("b=")+2, current.indexOf("]")));
+		                CurrentShape.setFillColor(new Color(r,g,b));
 		                current=readCodes.nextLine();
 		            }
 		            if(current.contains("Properties"))
@@ -350,6 +350,15 @@ public class PaintApp implements DrawingEngine {
 			JOptionPane.showMessageDialog(null,"No file was chosen");
 			return "Error"; 
 		}
+	}
+	public Shape GetSelectedShape(Point p) {
+		for (Shape s: ShapeArr) {
+			if (s.contain(p)) {
+				return s;
+			}
+			
+		}
+		return null;
 	}
 	
 }
